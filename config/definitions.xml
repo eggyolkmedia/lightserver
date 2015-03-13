@@ -1,0 +1,97 @@
+<definitions>
+
+  <logger 
+    active="1"    
+    console="1"
+  />
+  
+  <consts>
+    <const name="box_port">COM10</const>
+    <const name="back_led_addr">A0</const>    
+    <const name="ecandles_addr">A2,A3</const>
+    <const name="ecandles_left">A2</const>
+    <const name="ecandles_right">A3</const>
+  </consts>
+
+  <commands>
+    <command name="set_box_analog" class="box_controller" args="addr,value,fade">
+      <param name="port">{box_port}</param>
+      <param name="mode">set_analog</param>
+    </command>
+    
+    <command name="get_box_status" class="box_controller">
+      <param name="port">{box_port}</param>
+      <param name="mode">get_status</param>
+    </command>
+
+    <command name="wait" class="delay" args="value"/>
+    <command name="echo" class="echo" args="message"/>
+  </commands>
+
+  <sequences>
+    <sequence name="get_box_status">
+      <action command="get_box_status"/>
+    </sequence>
+    
+    <sequence name="movie_start">
+      <action command="set_box_analog">
+        <arg name="addr">{ecandles_addr}</arg>
+        <arg name="value">0</arg>
+        <arg name="fade">0</arg>
+      </action>
+      
+      <action command="wait">
+        <arg name="value">500</arg>
+      </action>
+      
+      <action command="set_box_analog">
+        <arg name="addr">{back_led_addr}</arg>
+        <arg name="value">0</arg>
+        <arg name="fade">2500</arg>
+      </action>
+    </sequence>
+
+    <sequence name="movie_stop">
+      <action command="set_box_analog">
+        <arg name="addr">{back_led_addr}</arg>
+        <arg name="value">100</arg>
+        <arg name="fade">2000</arg>
+      </action>
+
+      <action command="wait">
+        <arg name="value">1500</arg>
+      </action>
+
+      <action command="set_box_analog">
+        <arg name="addr">{ecandles_addr}</arg>
+        <arg name="value">100</arg>
+        <arg name="fade">0</arg>
+      </action>
+    </sequence>
+
+    <sequence name="set_back_led" args="value">
+      <action command="set_box_analog">
+        <arg name="addr">{back_led_addr}</arg>
+        <arg name="value">{value}</arg>
+        <arg name="fade">0</arg>
+      </action>
+    </sequence>
+    
+    <sequence name="set_left_candle" args="value">
+      <action command="set_box_analog">
+        <arg name="addr">{ecandles_left}</arg>
+        <arg name="value">{value}</arg>
+        <arg name="fade">0</arg>
+      </action>
+    </sequence>
+    
+    <sequence name="set_right_candle" args="value">
+      <action command="set_box_analog">
+        <arg name="addr">{ecandles_right}</arg>
+        <arg name="value">{value}</arg>
+        <arg name="fade">0</arg>
+      </action>
+    </sequence>
+  </sequences>
+
+</definitions>
