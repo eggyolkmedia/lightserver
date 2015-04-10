@@ -6,7 +6,7 @@
   />
   
   <consts>
-    <const name="box_port">COM10</const>
+    <const name="box_port">/dev/ttyACM0</const>
     <const name="back_led_addr">A0</const>    
     <const name="ecandles_addr">A2,A3</const>
     <const name="ecandles_left">A2</const>

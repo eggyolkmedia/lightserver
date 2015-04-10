@@ -1,14 +1,13 @@
 import utils.format
 import utils.logger
+import xml.etree.ElementTree as ET
 
 class Sequencer :
 
-  consts            = {}
-  commands          = {}
-  sequences         = {}
-  command_classes   = {}
-
-  logger     = None  
+  consts = {}
+  commands = {}
+  sequences = {}
+  command_classes = {}
 
   active = True # for multithreaded implementations
 
@@ -22,8 +21,6 @@ class Sequencer :
 
   def close(self) :     
     pass
-    #if self.logger :
-    #  self.logger.close()
 
   def run_sequence(self, sequence, args={}) :
 
@@ -62,17 +59,6 @@ class Sequencer :
       xml = ET.parse(filename).getroot()
     except Exception as e :
       raise Exception('definitions xml is invalid: ' + str(e))
-
-    # logger and log file
-    #loggernode = xml.find('logger')
-    #if loggernode==None :
-    #  raise Exception('logger node not found')
-
-    #if int(loggernode.attrib['active']) :            
-    #  self.logger  = utils.logger.Logger(
-    #    filename = loggernode.attrib['filename'] if 'filename' in loggernode.attrib.keys() else None,
-    #    console  = True if 'console' in loggernode.attrib.keys() and int(loggernode.attrib['console']) else False
-    #  )
 
     # parse consts
     cs = xml.find('consts')
