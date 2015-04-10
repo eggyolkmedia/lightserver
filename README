@@ -1,0 +1,24 @@
+ZimmerLights server. To enable it as a service (when installing on a new machine):
+
+(1) nano /etc/init/zimmerlights.conf
+(2) mkdir /etc/zimmerlights/logs
+(3) paste this:
+
+  description "ZimmerLights server"
+  author "zimmerlights@eggyolkmedia.com"
+
+  start on runlevel [2345]
+
+  stop on runlevel [016]
+
+  respawn
+
+  expect fork
+
+  chdir /etc/zimmerlights
+
+  exec python service.py 9111 logs/log.txt
+
+(4) refresh the services list
+(5) sudo service zimmerlights start
+
