@@ -1,7 +1,9 @@
+import command
 import requests
 
 class LifxControllerCommand (command.AbstractCommand) :
 
+  # TODO NONBLOCKING HTTP REQ
   def run(self, args, logger=None) :
     group = args['group']
     state = args['state']
@@ -9,7 +11,7 @@ class LifxControllerCommand (command.AbstractCommand) :
 
     token = self.params['auth_token']
 
-    self._debug('setting {} {}'.format(group, state))
+    self._debug('setting {} {}'.format(group, state), logger)
   
     headers = {
       "Authorization": "Bearer %s" % token,  
@@ -21,7 +23,7 @@ class LifxControllerCommand (command.AbstractCommand) :
     }
 
     response = requests.put('https://api.lifx.com/v1/lights/group:{}/state'.format(group), data=payload, headers=headers)
-    self._debug(response.content)
+    self._debug(response.content, logger)
     
 
   def _debug(self, message, logger) :
